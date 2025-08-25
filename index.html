@@ -2,138 +2,122 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>latenighttalk</title>
-  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Open+Sans&display=swap" rel="stylesheet">
+  <title>Updates</title>
   <style>
+    :root {
+      --hijau-gelap: #1b5e20;
+      --hijau-sederhana: #388e3c;
+      --hijau-lembut: #a5d6a7;
+      --hijau-pucat: #e8f5e9;
+      --putih: #ffffff;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background: #c5f3b9;
-      font-family: 'Open Sans', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .header {
-      text-align: center;
-      padding: 40px 20px 20px;
-      max-width: 900px;
-    }
-
-    .header h4 {
-      margin: 0;
-      font-size: 18px;
-      color: #4ab558;
-    }
-
-    .header h2 {
-      font-family: 'Indie Flower', cursive;
-      font-size: 24px;
-      color: #5fd17c;
-      margin-top: 12px;
+      background: linear-gradient(to bottom right, #c8e6c9, #e8f5e9);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--hijau-gelap);
+      background-image: url('https://www.transparenttextures.com/patterns/green-fibers.png');
     }
 
     .container {
-      max-width: 750px;
-      background: #b5f7c0;
-      padding: 50px;
-      border-radius: 24px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      max-width: 850px;
+      margin: 50px auto;
+      background-color: var(--putih);
+      border: 3px solid var(--hijau-lembut);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(76, 175, 80, 0.4);
       position: relative;
-      margin-bottom: 100px;
     }
 
     h1 {
       text-align: center;
-      font-family: 'Indie Flower', cursive;
-      font-size: 48px;
-      color: #5fd17c;
-      margin-bottom: 60px;
-      letter-spacing: 1px;
+      color: var(--hijau-gelap);
+      font-size: 2.5em;
+      margin-bottom: 10px;
     }
 
-    .para {
-      margin-bottom: 35px;
-      padding: 22px 28px;
-      border-radius: 14px;
-      background: #a2f397;
-      color: #000000;
-      line-height: 1.9;
-      white-space: pre-wrap;
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.02);
-      transition: all 0.3s ease;
-    }
-
-    .para:hover {
-      background: #acdfac;
-      transform: scale(1.01);
-    }
-
-    .signature {
-      text-align: right;
-      font-family: 'Indie Flower', cursive;
-      font-size: 30px;
-      color: #4ab558;
-      margin-top: 60px;
-    }
-
-    .reveal {
-      margin-top: 80px;
+    .subtitle {
       text-align: center;
+      font-style: italic;
+      color: var(--hijau-sederhana);
+      margin-bottom: 30px;
     }
 
-    audio {
-      margin-top: 30px;
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
     }
 
-    #photo {
-      display: none;
-      width: 100%;
-      max-width: 550px;
-      margin: 40px auto 0;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      opacity: 0;
-      transition: opacity 1s ease;
+    .date-button {
+      background-color: var(--hijau-sederhana);
+      color: white;
+      border: 2px solid var(--hijau-gelap);
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 10px rgba(56, 142, 60, 0.2);
+    }
+
+    .date-button:hover {
+      background-color: var(--hijau-gelap);
+      transform: scale(1.05);
+    }
+
+    .leaf-deco {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      opacity: 0.1;
+    }
+
+    .leaf-deco-left {
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 100px;
+      opacity: 0.1;
+      transform: rotate(180deg);
     }
 
     .footer {
       text-align: center;
-      font-size: 0.85em;
-      color: #a97f95;
-      margin-top: 50px;
+      margin-top: 40px;
+      padding-top: 20px;
+      font-size: 14px;
+      color: var(--hijau-sederhana);
+      border-top: 1px dashed var(--hijau-lembut);
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h4>23 August 2025 `  2:38am</h4>
-    <h2>Ik this was once a page for Jane but, I changed it. She'll never notice anyway. macamlah dia akan buka web ni lagi.</h2>
-  </div>
   <div class="container">
-    <h1>late night talks w/ myself</h1>
-    <div class="para">
-      Hi, Im not ok rn. IDK, just have no one to talk to. Grecia? im tired of texting her first. Janelvy? mehh, she prob busy rn. <br> i kinda have mental breakdown a bit rn. AAAAAAA. I want to go out so bad bro. duduk kat luar, tengok bintang2, mesti best kan. lagi best kalau ada someone. Kenapa lah aku camni ek. Kalau lah aku tak pindah sarawak sini, mesti kehidupan aku lebih bahagia. Tapi kalau aku tak pindah kan, aku takkan jumpa Janelvy and Grecia :/. But i rather Yihui actually. Yihuiiiiii, saya rindu aaaaaa :(. Haihh, kalau pindah Perak balik kan best. Kalau diberi pilihan stay sarawak forever or pindah ke Perak balik time bapak aku habis peralihan, aku lebih pilih balik Perak. Its not like I wanted to leave all my friends here in Sarawak, I dont want to leave them, but ik one day we're gonna be strangers anyway.</div>
+    <h1>updates from me :3</h1>
+    <p class="subtitle"><-Dates-></p>
 
-    <div class="para">
-      Kim Seungmin once said "I dont believe in the word 'forever' ". Yeah, i dont believe in the word forever either. I know everyone leave. Kalau ada seseorang yang stay dengan aku lepas habis SPM, mungkin I will believe in the word 'forever' again. I really hope it would be one of my bsf. Yk, I have 2 people who i consider as bsf. Grecia and Janelvy. I really want them both to stay in my life forever. haa, friendship topics never fails making me cry... im actually crying rn. IDK friendship just kills me rn. How can I become so sensitive about friendship? I lose many people back then, but I didnt cry. But now?? I cried over Elva and Grecia, ok maybe I cried over them bc i was having a huge crush on them. But Janelvy, she's not my crush but she made me cry over our friendship. She's my first ever friend who made me cry over friendship I think... I just dont want to lose people. Jane, just tell me anything you dont like about me, tell me here i should change, I'll change it. I dont want to lose another bsf. Youre the only one i have rn... Grecia? she's my excrush so being bsf with her like, urgghh idk how to explain. Its just, the vibe was not there anymore. But doesnt mean i dont want to be friend w/ her.</div>
-      
-    <div class="para">
-       hmm, i dont know what else to say lerr. I have no topic, ik ik, im a boring person.selalunya kalau aku cakap dgn diri sendiri, aku cakap pasal kawan yng aku sayang je. but yeah, idk if i should touch that topic. ik no one will ever open this website other than me but yeahh, idk. AARHHGG im just gonna talk about people i love. i have no topic, no one gonna see this anyway so yeaa, whateverrr. Lets talk about Jane. Janelvy was my bsf I'll say. Yeah i consider her as my bsf, did she consider me as her bsf too? IDK, i dont think so?? Oh yeah there's 1 thing. I felt like she just playing w/ me, you know? Sometimes je lahh. You know the time dia mintak aku tukar tempat ngan farisha, hmm idk lerrr. I mean, I think I have no right to say 'no' the her request. They've been friend for like what, 8 years maybe? and time tu, tak sampai setahun pun aku kawan dengan Janelvy soo yeahhh, I have no right to say 'no'. Maybe its God's plan, who knows right? IDK since when, maybe after aku kena buang jadi pengawas, I started to include 1 benda ni dalam doa aku. I asked God to use me in all the plan he have for me. So yeahhh. Lagipun farisha kan pengawas so, bukan selalu dia boleh spend time ngan Jane. I mean, boleh je mereka spend time luar sekolah, but aku nak mereka buat memori dia sekolah jugak soo. walaupun aku selalu kena leftout, I mean dah biasa kan? </div>
-       
-    <div class="para">
-       sitting next to Rianty was like, sitting next to older vision of me but worse. yeah i was very quiet back then but, Rianty lebih teruk, dari sekolah rendah lagi cuyy. Sejak aku pindah sini lagi dia camtu like, brooo. I wonder, kalau dia ada tiktok, macamane isi repost dia ekk. </div>
-
-    <div class="para">
-        What else I want to pour out, hmmm. I love both of my bsf :D. I really hope they stay in my life forever. I dont want to lose someone again. Im really bad expressing my love, but I really love them. I know i might not be that special to them. Yeah Grecia been friend w/ clay for like her whole life, Jane have her farisha or her other friends. Me? I only no one. Im no one first choice. Maybe someone's favourite but never the most favourite, never someone's number 1. IDK why... My sister have a lot of friends, my lil bro too and so are my parents. But why im the only one who doesnt? Maybe its my fault, im introverted and a boring person, no wonder why im no one number 1. I want to feel, just once in my life, I want to feel how is it to be chosen in a room full of people.</div>
-        
-    <div class="para">
-        I hate the fact that Im very sensitive about friendship. I cry over friends. Idk why i love my friends so much. Being jealous when someone closer to them. You know, sometimes I want to leave Janelvy. Bukan sebab aku taknak kawan dia ke apa no, I just dont want to cry over her. I mean dah nangis sebab dia dah pun but I dont want it to get worse. Like, she dont even cry over our friendship, but I do. It sounds, stupid. You know, I always want to be w/ her but i act like i dont. Secretly turn to her whenever she was focusing in class, thinking whether should i leave her or not. I hate it when i ask myself 'should I leave her?' like bro, she's the only one you have, why would you want to leave her? Haihhh, idk lah whats wrong w/ me. Wanting to leave the only person I have, acting like I dont need her, acting like I dont care 'bout her but deep down, I do. Ewww, I sounds so dramatic now.</div>
-      
-    <div class="para">
-        If Grecia and me in the same class, that would be better. I mean, being classmate w/ Janelvy is good but, I always be leftout. Maybe if Grecia and me in the same class, I will not be leftout. I HATE BEING THE LEFTOUT FRIEND, I HATE BEING LONELY. I always say 'Alah, aku dah biasa lah keseorangan, its ok.' but I CRIED OVER IT. How can Rianty be so ok being alone for like her whole life in school?! RIANTY, TEACH MEEEEEE. I know Jane always try to make sure I weren't leftout but still, I feel leftout. Grecia make sure I wasnt leftout too but still, I feel leftout. Maybe the problem here was me. I always walk away too so yeahhh. But I only walk away when aku rasa AKU TAK DIPERLUKAN. Like bila mereka ada kawan yang lebih rapat dari aku dengan diorang, I always walks away. Aku taknak orang tengok aku macam 'tengok tu, kesian dia kena leftout HAHAHAHA' So I walk away biarlah orang ingat aku takde kawan daripada kena cakap aku kena leftout. I still remember, I was once someone's main bsf. It was so fun, they always picked me to be their partner, always 'Marcelina, sini sini.' 'Marcelina, duduk dengan aku.' Or grabbed my hand whenever teacher told us to find a partner and I was there standing alone. I missed it so much, especially the person who did it, Chan Yi Hui... She littrealy the best bsf I EVER HAD IN MY ENTIRE LIFE. Always hang out w/ me like almost everyday, her mom known me as her bsf, my mom known her as my bsf. Even tho she's chinese and Im kadazandusun, we still get along so well. I really miss her...</div>
+    <div class="button-container">
+      <a href="updates/2025-08-23.html" class="date-button">23 Ogos 2025</a>
+      <a href="updates/2025-08-24.html" class="date-button">24 Ogos 2025</a>
+      <a href="updates/2025-08-25.html" class="date-button">25 Ogos 2025</a>
+      <a href="updates/2025-08-26.html" class="date-button">26 Ogos 2025</a>
+      <a href="updates/2025-08-27.html" class="date-button">27 Ogos 2025</a>
+  
     </div>
+
+    
+    <img src="https://img.freepik.com/premium-psd/tropical-leaf-transparent-background_53876-209870.jpg?w=2000" class="leaf-deco" alt="leaf" />
+    <img src="https://img.freepik.com/premium-psd/tropical-leaf-transparent-background_53876-209870.jpg?w=2000" class="leaf-deco-left" alt="leaf" />
+
+    <div class="footer">
+      © started on 25th August 2025
+    </div>
+  </div>
 </body>
 </html>
