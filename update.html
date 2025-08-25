@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update Detail</title>
+  <style>
+    :root {
+      --putih: #ffffff;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #1b5e20;
+      transition: background-color 0.5s ease;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background-color: var(--putih);
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 20px 40px rgba(27, 94, 32, 0.2);
+      position: relative;
+      transition: background-color 0.5s ease;
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 2.2em;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 1.1em;
+    }
+    .media-container {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .media-container img, .media-container video {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(27, 94, 32, 0.3);
+    }
+    button {
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(27, 94, 32, 0.4);
+    }
+    button:hover {
+      filter: brightness(85%);
+    }
+    #back-btn {
+      margin-top: 25px;
+      background-color: #388e3c;
+    }
+    #delete-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #a52714;
+      z-index: 1001;
+    }
+    /* Modal Styles */
+    #modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    #modal {
+      background: white;
+      padding: 25px 35px;
+      border-radius: 18px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    #modal input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    #modal .error-msg {
+      color: #a52714;
+      font-weight: 600;
+      display: none;
+      margin-bottom: 10px;
+    }
+    #modal button {
+      margin: 10px 8px 0 8px;
+      min-width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <button id="delete-btn">Delete Update</button>
+
+  <div class="container">
+    <h1 id="update-title">Tajuk Update</h1>
+    <p id="update-content">Isi kandungan update akan muncul di sini.</p>
+    <div class="media-container" id="media-container"></div>
+
+    <button id="back-btn">Kembali ke Senarai</button>
+  </div>
+
+  <!-- Modal Delete Confirmation -->
+  <div id="modal-overlay">
+    <div id="modal">
+      <h3>Masukkan Kata Laluan Admin</h3>
+      <input type="password" id="password-input" placeholder="Kata Laluan" />
+      <div class="error-msg" id="error-msg">Kata laluan salah. Sila cuba lagi.</div>
+      <div>
+        <button id="confirm-delete-btn">Padam</button>
+        <button id="cancel-btn">Batal</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const ADMIN_PASSWORD = 'maradmindelete';
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+  const updates = JSON.parse(localStorage.getItem('updates') || '[]');
+
+  const titleEl = document.getElementById('update-title');
+  const contentEl = document.getElementById('update-content');
+  const mediaContainer = document.getElementById('media-container');
+  const backBtn = document.getElementById('back-btn');
+  const deleteBtn = document.getElementById('delete-btn');
+  const modalOverlay = document.getElementById('modal-overlay');
+  const passwordInput = document.getElementById('password-input');
+  const errorMsg = document.getElementById('error-msg');
+  const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+  const cancelBtn = document.getElementById('cancel-btn');
+
+  function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+    return [r, g, b];
+  }
+
+  function applyThemeColor(color) {
+    const [r, g, b] = hexToRgb(color);
+
+    document.body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.15)`;
+    document.querySelector('.container').style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.3)`;
+
+    document.querySelectorAll('button, .date-button').forEach(btn => {
+      btn.style.backgroundColor = color;
+      btn.style.color = '#fff';
+      btn.style.boxShadow = `0 4px 10px rgba(${r}, ${g}, ${b}, 0.4)`;
+      btn.style.border = 'none';
+    });
+  }
+
+  function loadUpdate() {
+    if (!id || !updates[id]) {
+      alert('Update tidak ditemui.');
+      window.location.href = 'index.html';
+      return;
+    }
+
+    const update = updates[id];
+    titleEl.textContent = update.tajuk;
+    contentEl.textContent = update.isi;
+
+    applyThemeColor(update.themeColor || '#388e3c');
+
+    mediaContainer.innerHTML = '';
+    if (update.media && update.media.length > 0) {
+      update.media.forEach(media => {
+        if (media.type === 'image') {
+          const img = document.createElement('img');
+          img.src = media.data;
+          img.alt = 'Gambar update';
+          mediaContainer.appendChild(img);
+        } else if (media.type === 'video') {
+          const video = document.createElement('video');
+          video.src = media.data;
+          video.controls = true;
+          mediaContainer.appendChild(video);
+        }
+      });
+    }
+  }
+
+  backBtn.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+
+  deleteBtn.addEventListener('click', () => {
+    passwordInput.value = '';
+    errorMsg.style.display = 'none';
+    modalOverlay.style.display = 'flex';
+    passwordInput.focus();
+  });
+
+  confirmDeleteBtn.addEventListener('click', () => {
+    const enteredPass = passwordInput.value;
+    if (enteredPass === ADMIN_PASSWORD) {
+      updates.splice(id, 1);
+      localStorage.setItem('updates', JSON.stringify(updates));
+      alert('Update telah dipadam.');
+      window.location.href = 'index.html';
+    } else {
+      errorMsg.style.display = 'block';
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    modalOverlay.style.display = 'none';
+  });
+
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+      modalOverlay.style.display = 'none';
+    }
+  });
+
+  loadUpdate();
+</script>
+
+</body>
+</html>
