@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Buat Update Baru</title>
+<style>
+  body {
+    margin: 0; padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #c8e6c9, #e8f5e9);
+    min-height: 100vh;
+    color: #1b5e20;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .container {
+    background: white;
+    max-width: 650px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-shadow: 0 20px 40px rgba(56, 142, 60, 0.35);
+    position: relative;
+  }
+  h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #1b5e20;
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #a5d6a7;
+    border-radius: 14px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 18px;
+    resize: vertical;
+  }
+  textarea {
+    min-height: 140px;
+  }
+  input[type="file"] {
+    margin-bottom: 18px;
+  }
+  input[type="color"] {
+    width: 70px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 18px;
+  }
+  .color-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  button {
+    background-color: #1b5e20;
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(27, 94, 32, 0.7);
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto;
+  }
+  button:hover {
+    background-color: #145214;
+  }
+
+  /* New back button styles */
+  #back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #388e3c;
+    padding: 10px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(56, 142, 60, 0.6);
+    font-weight: 700;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #back-button:hover {
+    background-color: #2e6b2b;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Back button -->
+  <button id="back-button" type="button">Kembali</button>
+
+  <h1>Buat Update Baru</h1>
+  <form id="updateForm">
+    <label for="tajuk">Tajuk Update</label>
+    <input type="text" id="tajuk" name="tajuk" placeholder="Tulis tajuk update..." required />
+
+    <label for="isi">Isi Kandungan Update</label>
+    <textarea id="isi" name="isi" placeholder="Tulis isi update..." required></textarea>
+
+    <label for="media">Muat Naik Gambar/Video (max 3, optional)</label>
+    <input type="file" id="media" name="media" accept="image/*,video/*" multiple />
+
+    <div class="color-label">
+      <label for="themeColor">Pilih Warna Tema Update:</label>
+      <input type="color" id="themeColor" name="themeColor" value="#1b5e20" />
+    </div>
+
+    <button type="submit">Hantar Update</button>
+  </form>
+</div>
+
+<script>
+  const updateForm = document.getElementById('updateForm');
+  const backButton = document.getElementById('back-button');
+
+  backButton.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Gagal baca fail'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  updateForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const tajuk = document.getElementById('tajuk').value.trim();
+    const isi = document.getElementById('isi').value.trim();
+    const themeColor = document.getElementById('themeColor').value;
+
+    const mediaFiles = Array.from(document.getElementById('media').files).slice(0, 3); // max 3 files
+
+    // Convert files to base64 DataURL array [{type:'image'|'video', data: base64string}]
+    let mediaData = [];
+    for (let file of mediaFiles) {
+      try {
+        const dataUrl = await readFileAsDataURL(file);
+        const type = file.type.startsWith('video') ? 'video' : 'image';
+        mediaData.push({ type, data: dataUrl });
+      } catch(err) {
+        alert('Gagal baca fail media: ' + file.name);
+        return;
+      }
+    }
+
+    // Prepare update object
+    const update = {
+      tajuk,
+      isi,
+      themeColor,
+      media: mediaData,
+      createdAt: new Date().toISOString()
+    };
+
+    // Save update to localStorage
+    const updates = JSON.parse(localStorage.getItem('updates') || '[]');
+    updates.push(update);
+    localStorage.setItem('updates', JSON.stringify(updates));
+
+    alert('Update berjaya disimpan!');
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
