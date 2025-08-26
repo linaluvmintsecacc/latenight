@@ -1,191 +1,176 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Buat Update Baru</title>
-<style>
-  body {
-    margin: 0; padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #c8e6c9, #e8f5e9);
-    min-height: 100vh;
-    color: #1b5e20;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  .container {
-    background: white;
-    max-width: 650px;
-    width: 100%;
-    border-radius: 20px;
-    padding: 30px 40px;
-    box-shadow: 0 20px 40px rgba(56, 142, 60, 0.35);
-    position: relative;
-  }
-  h1 {
-    margin-top: 0;
-    margin-bottom: 25px;
-    text-align: center;
-    color: #1b5e20;
-  }
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-  }
-  input[type="text"],
-  textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #a5d6a7;
-    border-radius: 14px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    margin-bottom: 18px;
-    resize: vertical;
-  }
-  textarea {
-    min-height: 140px;
-  }
-  input[type="file"] {
-    margin-bottom: 18px;
-  }
-  input[type="color"] {
-    width: 70px;
-    height: 40px;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-bottom: 18px;
-  }
-  .color-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
-  }
-  button {
-    background-color: #1b5e20;
-    color: white;
-    font-weight: 700;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 16px;
-    cursor: pointer;
-    box-shadow: 0 6px 14px rgba(27, 94, 32, 0.7);
-    transition: background-color 0.3s ease;
-    display: block;
-    margin: 0 auto;
-  }
-  button:hover {
-    background-color: #145214;
-  }
-
-  /* New back button styles */
-  #back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #388e3c;
-    padding: 10px 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(56, 142, 60, 0.6);
-    font-weight: 700;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  #back-button:hover {
-    background-color: #2e6b2b;
-  }
-</style>
-</head>
-<body>
-
-<div class="container">
-  <!-- Back button -->
-  <button id="back-button" type="button">Kembali</button>
-
-  <h1>Buat Update Baru</h1>
-  <form id="updateForm">
-    <label for="tajuk">Tajuk Update</label>
-    <input type="text" id="tajuk" name="tajuk" placeholder="Tulis tajuk update..." required />
-
-    <label for="isi">Isi Kandungan Update</label>
-    <textarea id="isi" name="isi" placeholder="Tulis isi update..." required></textarea>
-
-    <label for="media">Muat Naik Gambar/Video (max 3, optional)</label>
-    <input type="file" id="media" name="media" accept="image/*,video/*" multiple />
-
-    <div class="color-label">
-      <label for="themeColor">Pilih Warna Tema Update:</label>
-      <input type="color" id="themeColor" name="themeColor" value="#1b5e20" />
-    </div>
-
-    <button type="submit">Hantar Update</button>
-  </form>
-</div>
-
-<script>
-  const updateForm = document.getElementById('updateForm');
-  const backButton = document.getElementById('back-button');
-
-  backButton.addEventListener('click', () => {
-    window.location.href = 'index.html';
-  });
-
-  function readFileAsDataURL(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(new Error('Gagal baca fail'));
-      reader.readAsDataURL(file);
-    });
-  }
-
-  updateForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const tajuk = document.getElementById('tajuk').value.trim();
-    const isi = document.getElementById('isi').value.trim();
-    const themeColor = document.getElementById('themeColor').value;
-
-    const mediaFiles = Array.from(document.getElementById('media').files).slice(0, 3); // max 3 files
-
-    // Convert files to base64 DataURL array [{type:'image'|'video', data: base64string}]
-    let mediaData = [];
-    for (let file of mediaFiles) {
-      try {
-        const dataUrl = await readFileAsDataURL(file);
-        const type = file.type.startsWith('video') ? 'video' : 'image';
-        mediaData.push({ type, data: dataUrl });
-      } catch(err) {
-        alert('Gagal baca fail media: ' + file.name);
-        return;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Update</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
+  <style>
+    /* Background with subtle green animation */
+    @keyframes greenPulse {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
       }
     }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #d7f5d1, #a3d7a5, #d7f5d1, #a3d7a5);
+      background-size: 400% 400%;
+      animation: greenPulse 20s ease infinite;
+      color: #2e4d2e;
+    }
+    .container {
+      background: linear-gradient(145deg, #f0fff0, #d8f5d8);
+      border-radius: 25px;
+      padding: 40px 50px;
+      box-shadow:
+        0 8px 24px rgba(27, 94, 32, 0.15),
+        inset 0 0 8px rgba(255, 255, 255, 0.6);
+      border: 1.5px solid #a3d4a5;
+      max-width: 600px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    h1 {
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      color: #2e4d2e;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      text-align: center;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: #2e4d2e;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1.8px solid #a3d4a5;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif;
+      color: #1e293b;
+      resize: vertical;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
+    }
+    textarea {
+      min-height: 130px;
+    }
+    button {
+      background: #4caf50;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      padding: 14px 0;
+      width: 100%;
+      border-radius: 18px;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      background: #388e3c;
+      box-shadow: 0 8px 20px rgba(56, 142, 60, 0.6);
+    }
+    #back-button {
+      background: transparent;
+      color: #4caf50;
+      border: 2px solid #4caf50;
+      padding: 10px 25px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 20px;
+      display: inline-block;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    #back-button:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="back-button">Kembali</button>
+    <h1>Buat Update Baru</h1>
+    <form id="updateForm">
+      <label for="tajuk">Tajuk</label>
+      <input id="tajuk" type="text" required placeholder="Tarikh/Topic/Others" />
+      <label for="isi">Isi</label>
+      <textarea id="isi" required placeholder="..."></textarea>
+      <button type="submit">Create Update</button>
+    </form>
+  </div>
 
-    // Prepare update object
-    const update = {
-      tajuk,
-      isi,
-      themeColor,
-      media: mediaData,
-      createdAt: new Date().toISOString()
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
+      authDomain: "latenight-4c61a.firebaseapp.com",
+      projectId: "latenight-4c61a",
+      storageBucket: "latenight-4c61a.appspot.com",
+      messagingSenderId: "208698993180",
+      appId: "1:208698993180:web:7741767d129b4d43034dd9",
+      measurementId: "G-MVKZ0R87Y3"
     };
 
-    // Save update to localStorage
-    const updates = JSON.parse(localStorage.getItem('updates') || '[]');
-    updates.push(update);
-    localStorage.setItem('updates', JSON.stringify(updates));
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    alert('Update berjaya disimpan!');
-    window.location.href = 'index.html';
-  });
-</script>
+    document.getElementById("back-button").onclick = () => {
+      window.location.href = "index.html";
+    };
 
+    document.getElementById("updateForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        const tajuk = document.getElementById("tajuk").value.trim();
+        const isi = document.getElementById("isi").value.trim();
+
+        if (!tajuk || !isi) {
+          alert("Sila isi semua ruangan dengan lengkap.");
+          return;
+        }
+
+        await addDoc(collection(db, "updates"), {
+          tajuk,
+          isi,
+          createdAt: serverTimestamp()
+        });
+
+        alert("Update berjaya disimpan!");
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error("Gagal hantar:", err);
+        alert("Gagal simpan update. Sila cuba lagi.");
+      }
+    });
+  </script>
 </body>
 </html>
