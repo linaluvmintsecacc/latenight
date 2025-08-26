@@ -2,245 +2,260 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
-  <title>Update Detail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Update</title>
   <style>
-    :root {
-      --putih: #ffffff;
+    @keyframes greenPulse {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
     }
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #1b5e20;
-      transition: background-color 0.5s ease;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(-45deg, #d7f5d1, #a3d7a5, #d7f5d1, #a3d7a5);
+      background-size: 400% 400%;
+      animation: greenPulse 20s ease infinite;
+      min-height: 100vh;
+      color: #2e4d2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      box-sizing: border-box;
     }
     .container {
-      max-width: 700px;
-      margin: 50px auto;
-      background-color: var(--putih);
-      border-radius: 20px;
-      padding: 30px 40px;
-      box-shadow: 0 20px 40px rgba(27, 94, 32, 0.2);
+      background: linear-gradient(145deg, #f0fff0, #d8f5d8);
+      border-radius: 25px;
+      padding: 40px 50px;
+      box-shadow:
+        0 8px 24px rgba(27, 94, 32, 0.15),
+        inset 0 0 8px rgba(255, 255, 255, 0.6);
+      border: 1.5px solid #a3d4a5;
+      max-width: 650px;
+      width: 100%;
+      box-sizing: border-box;
       position: relative;
-      transition: background-color 0.5s ease;
     }
     h1 {
-      margin-top: 0;
-      font-size: 2.2em;
-    }
-    p {
-      line-height: 1.6;
-      font-size: 1.1em;
-    }
-    .media-container {
-      margin-top: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .media-container img, .media-container video {
-      max-width: 100%;
-      max-height: 300px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(27, 94, 32, 0.3);
-    }
-    button {
-      cursor: pointer;
-      border-radius: 12px;
-      padding: 10px 25px;
-      font-size: 1rem;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      border: none;
-      color: #fff;
-      box-shadow: 0 4px 10px rgba(27, 94, 32, 0.4);
-    }
-    button:hover {
-      filter: brightness(85%);
-    }
-    #back-btn {
-      margin-top: 25px;
-      background-color: #388e3c;
-    }
-    #delete-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #a52714;
-      z-index: 1001;
-    }
-    /* Modal Styles */
-    #modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-    #modal {
-      background: white;
-      padding: 25px 35px;
-      border-radius: 18px;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      color: #2e4d2e;
+      font-weight: 700;
+      letter-spacing: 1.1px;
       text-align: center;
     }
-    #modal input[type="password"] {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 1rem;
-      margin-top: 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+    p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #2e4d2e;
+      white-space: pre-wrap;
+      margin-bottom: 30px;
     }
-    #modal .error-msg {
-      color: #a52714;
+    .media-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .media-container img,
+    .media-container video {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 14px;
+      box-shadow: 0 6px 15px rgba(27, 94, 32, 0.3);
+    }
+    #back-btn {
+      background: transparent;
+      color: #4caf50;
+      border: 2px solid #4caf50;
+      padding: 10px 30px;
+      border-radius: 22px;
       font-weight: 600;
-      display: none;
-      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
     }
-    #modal button {
-      margin: 10px 8px 0 8px;
-      min-width: 100px;
+    #back-btn:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    /* 3-dot menu */
+    .menu-wrapper {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      user-select: none;
+    }
+    .menu-button {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0;
+    }
+    .menu-button span {
+      display: block;
+      width: 5px;
+      height: 5px;
+      background-color: #4caf50;
+      border-radius: 50%;
+    }
+    .menu-content {
+      display: none;
+      position: absolute;
+      top: 36px;
+      right: 0;
+      background: white;
+      border: 1.5px solid #a3d4a5;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(27, 94, 32, 0.2);
+      z-index: 100;
+      min-width: 120px;
+      overflow: hidden;
+    }
+    .menu-content.show {
+      display: block;
+    }
+    .menu-content button {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 12px 15px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 600;
+      color: #2e4d2e;
+      transition: background-color 0.25s ease;
+    }
+    .menu-content button:hover {
+      background-color: #4caf50;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <button id="delete-btn">Delete Update</button>
-
   <div class="container">
-    <h1 id="update-title">Tajuk Update</h1>
-    <p id="update-content">Isi kandungan update akan muncul di sini.</p>
-    <div class="media-container" id="media-container"></div>
-
-    <button id="back-btn">Kembali ke Senarai</button>
-  </div>
-
-  <!-- Modal Delete Confirmation -->
-  <div id="modal-overlay">
-    <div id="modal">
-      <h3>Masukkan Kata Laluan Admin</h3>
-      <input type="password" id="password-input" placeholder="Kata Laluan" />
-      <div class="error-msg" id="error-msg">Kata laluan salah. Sila cuba lagi.</div>
-      <div>
-        <button id="confirm-delete-btn">Padam</button>
-        <button id="cancel-btn">Batal</button>
+    <div class="menu-wrapper">
+      <button class="menu-button" aria-label="Options">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="menu-content" id="menuContent">
+        <button id="editBtn">Edit</button>
+        <button id="deleteBtn">Delete</button>
       </div>
     </div>
+    <h1 id="updateTitle">Tajuk Update</h1>
+    <p id="updateContent">Isi update akan dipaparkan di sini.</p>
+
+    <button id="back-btn">Kembali</button>
   </div>
 
-<script>
-  const ADMIN_PASSWORD = 'maradmindelete';
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get('id');
-  const updates = JSON.parse(localStorage.getItem('updates') || '[]');
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
+      authDomain: "latenight-4c61a.firebaseapp.com",
+      projectId: "latenight-4c61a",
+      storageBucket: "latenight-4c61a.appspot.com",
+      messagingSenderId: "208698993180",
+      appId: "1:208698993180:web:7741767d129b4d43034dd9",
+      measurementId: "G-MVKZ0R87Y3"
+    };
 
-  const titleEl = document.getElementById('update-title');
-  const contentEl = document.getElementById('update-content');
-  const mediaContainer = document.getElementById('media-container');
-  const backBtn = document.getElementById('back-btn');
-  const deleteBtn = document.getElementById('delete-btn');
-  const modalOverlay = document.getElementById('modal-overlay');
-  const passwordInput = document.getElementById('password-input');
-  const errorMsg = document.getElementById('error-msg');
-  const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-  const cancelBtn = document.getElementById('cancel-btn');
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    let r = parseInt(hex.substring(0, 2), 16);
-    let g = parseInt(hex.substring(2, 4), 16);
-    let b = parseInt(hex.substring(4, 6), 16);
-    return [r, g, b];
-  }
+    const params = new URLSearchParams(window.location.search);
+    const updateId = params.get("id");
 
-  function applyThemeColor(color) {
-    const [r, g, b] = hexToRgb(color);
+    const updateTitle = document.getElementById("updateTitle");
+    const updateContent = document.getElementById("updateContent");
+    const backBtn = document.getElementById("back-btn");
+    const menuButton = document.querySelector(".menu-button");
+    const menuContent = document.getElementById("menuContent");
+    const editBtn = document.getElementById("editBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
 
-    document.body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.15)`;
-    document.querySelector('.container').style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.3)`;
+    // Fetch update data
+    async function loadUpdate() {
+      if (!updateId) {
+        alert("Update tidak dijumpai.");
+        window.location.href = "index.html";
+        return;
+      }
 
-    document.querySelectorAll('button, .date-button').forEach(btn => {
-      btn.style.backgroundColor = color;
-      btn.style.color = '#fff';
-      btn.style.boxShadow = `0 4px 10px rgba(${r}, ${g}, ${b}, 0.4)`;
-      btn.style.border = 'none';
-    });
-  }
+      try {
+        const docRef = doc(db, "updates", updateId);
+        const docSnap = await getDoc(docRef);
 
-  function loadUpdate() {
-    if (!id || !updates[id]) {
-      alert('Update tidak ditemui.');
-      window.location.href = 'index.html';
-      return;
-    }
-
-    const update = updates[id];
-    titleEl.textContent = update.tajuk;
-    contentEl.textContent = update.isi;
-
-    applyThemeColor(update.themeColor || '#388e3c');
-
-    mediaContainer.innerHTML = '';
-    if (update.media && update.media.length > 0) {
-      update.media.forEach(media => {
-        if (media.type === 'image') {
-          const img = document.createElement('img');
-          img.src = media.data;
-          img.alt = 'Gambar update';
-          mediaContainer.appendChild(img);
-        } else if (media.type === 'video') {
-          const video = document.createElement('video');
-          video.src = media.data;
-          video.controls = true;
-          mediaContainer.appendChild(video);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          updateTitle.textContent = data.tajuk;
+          updateContent.textContent = data.isi;
+        } else {
+          alert("Update tidak dijumpai.");
+          window.location.href = "index.html";
         }
-      });
+      } catch (error) {
+        console.error("Gagal dapat data update:", error);
+        alert("Gagal memuatkan update. Sila cuba lagi.");
+        window.location.href = "index.html";
+      }
     }
-  }
 
-  backBtn.addEventListener('click', () => {
-    window.location.href = 'index.html';
-  });
+    loadUpdate();
 
-  deleteBtn.addEventListener('click', () => {
-    passwordInput.value = '';
-    errorMsg.style.display = 'none';
-    modalOverlay.style.display = 'flex';
-    passwordInput.focus();
-  });
+    backBtn.onclick = () => {
+      window.location.href = "index.html";
+    };
 
-  confirmDeleteBtn.addEventListener('click', () => {
-    const enteredPass = passwordInput.value;
-    if (enteredPass === ADMIN_PASSWORD) {
-      updates.splice(id, 1);
-      localStorage.setItem('updates', JSON.stringify(updates));
-      alert('Update telah dipadam.');
-      window.location.href = 'index.html';
-    } else {
-      errorMsg.style.display = 'block';
-      passwordInput.value = '';
-      passwordInput.focus();
-    }
-  });
+    // Toggle menu
+    menuButton.onclick = () => {
+      menuContent.classList.toggle("show");
+    };
 
-  cancelBtn.addEventListener('click', () => {
-    modalOverlay.style.display = 'none';
-  });
+    // Click outside menu to close
+    document.addEventListener("click", (e) => {
+      if (!menuButton.contains(e.target) && !menuContent.contains(e.target)) {
+        menuContent.classList.remove("show");
+      }
+    });
 
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) {
-      modalOverlay.style.display = 'none';
-    }
-  });
+    editBtn.onclick = () => {
+      window.location.href = `create.html?id=${updateId}&edit=true`;
+    };
 
-  loadUpdate();
-</script>
-
+    deleteBtn.onclick = async () => {
+      if (confirm("Adakah anda pasti mahu memadam update ini?")) {
+        try {
+          await deleteDoc(doc(db, "updates", updateId));
+          alert("Update berjaya dipadam.");
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Gagal memadam update:", error);
+          alert("Gagal memadam update. Sila cuba lagi.");
+        }
+      }
+    };
+  </script>
 </body>
 </html>
