@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Update Detail</title>
+  <style>
+    @keyframes greenPulse {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(-45deg, #d7f5d1, #a3d7a5, #d7f5d1, #a3d7a5);
+      background-size: 400% 400%;
+      animation: greenPulse 20s ease infinite;
+      min-height: 100vh;
+      color: #2e4d2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      box-sizing: border-box;
+    }
+    .container {
+      background: linear-gradient(145deg, #f0fff0, #d8f5d8);
+      border-radius: 25px;
+      padding: 40px 50px;
+      box-shadow:
+        0 8px 24px rgba(27, 94, 32, 0.15),
+        inset 0 0 8px rgba(255, 255, 255, 0.6);
+      border: 1.5px solid #a3d4a5;
+      max-width: 650px;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+    }
+    h1 {
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      color: #2e4d2e;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      text-align: center;
+    }
+    p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #2e4d2e;
+      white-space: pre-wrap;
+      margin-bottom: 30px;
+    }
+    .media-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .media-container img,
+    .media-container video {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 14px;
+      box-shadow: 0 6px 15px rgba(27, 94, 32, 0.3);
+    }
+    #back-btn {
+      background: transparent;
+      color: #4caf50;
+      border: 2px solid #4caf50;
+      padding: 10px 30px;
+      border-radius: 22px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
+    }
+    #back-btn:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    /* 3-dot menu */
+    .menu-wrapper {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      user-select: none;
+    }
+    .menu-button {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0;
+    }
+    .menu-button span {
+      display: block;
+      width: 5px;
+      height: 5px;
+      background-color: #4caf50;
+      border-radius: 50%;
+    }
+    .menu-content {
+      display: none;
+      position: absolute;
+      top: 36px;
+      right: 0;
+      background: white;
+      border: 1.5px solid #a3d4a5;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(27, 94, 32, 0.2);
+      z-index: 100;
+      min-width: 120px;
+      overflow: hidden;
+    }
+    .menu-content.show {
+      display: block;
+    }
+    .menu-content button {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 12px 15px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 600;
+      color: #2e4d2e;
+      transition: background-color 0.25s ease;
+    }
+    .menu-content button:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="menu-wrapper">
+      <button class="menu-button" aria-label="Options">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="menu-content" id="menuContent">
+        <button id="editBtn">Edit</button>
+        <button id="deleteBtn">Delete</button>
+      </div>
+    </div>
+    <h1 id="updateTitle">Tajuk Update</h1>
+    <p id="updateContent">Isi update akan dipaparkan di sini.</p>
+
+    <button id="back-btn">Kembali</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
+      authDomain: "latenight-4c61a.firebaseapp.com",
+      projectId: "latenight-4c61a",
+      storageBucket: "latenight-4c61a.appspot.com",
+      messagingSenderId: "208698993180",
+      appId: "1:208698993180:web:7741767d129b4d43034dd9",
+      measurementId: "G-MVKZ0R87Y3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const params = new URLSearchParams(window.location.search);
+    const updateId = params.get("id");
+
+    const updateTitle = document.getElementById("updateTitle");
+    const updateContent = document.getElementById("updateContent");
+    const backBtn = document.getElementById("back-btn");
+    const menuButton = document.querySelector(".menu-button");
+    const menuContent = document.getElementById("menuContent");
+    const editBtn = document.getElementById("editBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
+
+    // Fetch update data
+    async function loadUpdate() {
+      if (!updateId) {
+        alert("Update tidak dijumpai.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "updates", updateId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          updateTitle.textContent = data.tajuk;
+          updateContent.textContent = data.isi;
+        } else {
+          alert("Update tidak dijumpai.");
+          window.location.href = "index.html";
+        }
+      } catch (error) {
+        console.error("Gagal dapat data update:", error);
+        alert("Gagal memuatkan update. Sila cuba lagi.");
+        window.location.href = "index.html";
+      }
+    }
+
+    loadUpdate();
+
+    backBtn.onclick = () => {
+      window.location.href = "index.html";
+    };
+
+    // Toggle menu
+    menuButton.onclick = () => {
+      menuContent.classList.toggle("show");
+    };
+
+    // Click outside menu to close
+    document.addEventListener("click", (e) => {
+      if (!menuButton.contains(e.target) && !menuContent.contains(e.target)) {
+        menuContent.classList.remove("show");
+      }
+    });
+
+    editBtn.onclick = () => {
+      window.location.href = `create.html?id=${updateId}&edit=true`;
+    };
+
+    deleteBtn.onclick = async () => {
+      if (confirm("Adakah anda pasti mahu memadam update ini?")) {
+        try {
+          await deleteDoc(doc(db, "updates", updateId));
+          alert("Update berjaya dipadam.");
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Gagal memadam update:", error);
+          alert("Gagal memadam update. Sila cuba lagi.");
+        }
+      }
+    };
+  </script>
+</body>
+</html>
