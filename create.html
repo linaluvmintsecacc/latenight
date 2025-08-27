@@ -3,18 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buat Update Baru</title>
-  <title>New Update</title>
+  <title>Buat Update Baru / Kemaskini Update</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
   <style>
-    /* Background with subtle green animation */
     @keyframes greenPulse {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
     body {
       margin: 0;
@@ -117,23 +111,19 @@
 <body>
   <div class="container">
     <button id="back-button">Kembali</button>
-    <h1>Buat Update Baru</h1>
+    <h1 id="page-title">Buat Update Baru</h1>
     <form id="updateForm">
       <label for="tajuk">Tajuk</label>
       <input id="tajuk" type="text" required placeholder="Contoh: Hari yang menyeronokkan" />
       <label for="isi">Isi</label>
       <textarea id="isi" required placeholder="Ceritakan apa yang berlaku hari ini..."></textarea>
       <button type="submit">Hantar</button>
-      <input id="tajuk" type="text" required placeholder="Tarikh/Topic/Others" />
-      <label for="isi">Isi</label>
-      <textarea id="isi" required placeholder="..."></textarea>
-      <button type="submit">Create Update</button>
     </form>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
@@ -148,34 +138,88 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    document.getElementById("back-button").onclick = () => {
+    const params = new URLSearchParams(window.location.search);
+    const updateId = params.get("id");
+    const isEdit = params.get("edit") === "true";
+
+    const tajukInput = document.getElementById("tajuk");
+    const isiInput = document.getElementById("isi");
+    const form = document.getElementById("updateForm");
+    const backBtn = document.getElementById("back-button");
+    const pageTitle = document.getElementById("page-title");
+    const submitBtn = form.querySelector("button[type='submit']");
+
+    backBtn.onclick = () => {
       window.location.href = "index.html";
     };
 
-    document.getElementById("updateForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      try {
-        const tajuk = document.getElementById("tajuk").value.trim();
-        const isi = document.getElementById("isi").value.trim();
+    // Jika dalam mode edit, fetch data sedia ada dan paparkan dalam form
+    if (isEdit && updateId) {
+      pageTitle.textContent = "Kemaskini Update";
+      submitBtn.textContent = "Kemaskini";
 
-        if (!tajuk || !isi) {
-          alert("Sila isi semua ruangan dengan lengkap.");
-          return;
+      (async () => {
+        try {
+          const docRef = doc(db, "updates", updateId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            tajukInput.value = data.tajuk || "";
+            isiInput.value = data.isi || "";
+          } else {
+            alert("Update tidak dijumpai.");
+            window.location.href = "index.html";
+          }
+        } catch (error) {
+          console.error("Gagal dapat data update:", error);
+          alert("Gagal memuatkan update. Sila cuba lagi.");
+          window.location.href = "index.html";
+        }
+      })();
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const tajuk = tajukInput.value.trim();
+      const isi = isiInput.value.trim();
+
+      if (!tajuk || !isi) {
+        alert("Sila isi semua ruangan dengan lengkap.");
+        return;
+      }
+
+      try {
+        if (isEdit && updateId) {
+          // Update dokumen sedia ada
+          const docRef = doc(db, "updates", updateId);
+          await updateDoc(docRef, {
+            tajuk,
+            isi,
+            updatedAt: serverTimestamp()
+          });
+          alert("Update berjaya dikemaskini!");
+        } else {
+          // Create dokumen baru
+          await addDoc(collection(db, "updates"), {
+            tajuk,
+            isi,
+            createdAt: serverTimestamp()
+          });
+          alert("Update berjaya disimpan!");
         }
 
-        await addDoc(collection(db, "updates"), {
-          tajuk,
-          isi,
-          createdAt: serverTimestamp()
-        });
-
-        alert("Update berjaya disimpan!");
         window.location.href = "index.html";
       } catch (err) {
         console.error("Gagal hantar:", err);
         alert("Gagal simpan update. Sila cuba lagi.");
       }
     });
+  </script>
+</body>
+</html>
+
   </script>
 </body>
 </html>
