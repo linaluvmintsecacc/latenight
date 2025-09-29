@@ -4,16 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Update Detail</title>
-  <title>Update</title>
   <style>
-    @keyframes greenPulse {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-    }
     body {
       margin: 0;
       font-family: 'Nunito', sans-serif;
@@ -27,6 +18,10 @@
       align-items: center;
       padding: 30px 20px;
       box-sizing: border-box;
+    }
+    @keyframes greenPulse {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
     .container {
       background: linear-gradient(145deg, #f0fff0, #d8f5d8);
@@ -45,29 +40,23 @@
       border-bottom: 2px solid #4caf50;
       padding-bottom: 10px;
       margin-bottom: 30px;
-      color: #2e4d2e;
       font-weight: 700;
-      letter-spacing: 1.1px;
       text-align: center;
     }
     p {
       font-size: 1.15rem;
       line-height: 1.6;
-      color: #2e4d2e;
       white-space: pre-wrap;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     .media-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      justify-content: center;
+      text-align: center;
       margin-bottom: 30px;
     }
     .media-container img,
     .media-container video {
       max-width: 100%;
-      max-height: 300px;
+      max-height: 350px;
       border-radius: 14px;
       box-shadow: 0 6px 15px rgba(27, 94, 32, 0.3);
     }
@@ -79,22 +68,17 @@
       border-radius: 22px;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
       display: block;
       margin: 0 auto;
-      width: fit-content;
     }
     #back-btn:hover {
       background-color: #4caf50;
       color: white;
     }
-
-    /* 3-dot menu */
     .menu-wrapper {
       position: absolute;
       top: 25px;
       right: 25px;
-      user-select: none;
     }
     .menu-button {
       width: 28px;
@@ -102,15 +86,12 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
-      padding: 0;
     }
     .menu-button span {
-      display: block;
       width: 5px;
       height: 5px;
       background-color: #4caf50;
@@ -126,12 +107,8 @@
       border-radius: 10px;
       box-shadow: 0 8px 24px rgba(27, 94, 32, 0.2);
       z-index: 100;
-      min-width: 120px;
-      overflow: hidden;
     }
-    .menu-content.show {
-      display: block;
-    }
+    .menu-content.show { display: block; }
     .menu-content button {
       width: 100%;
       background: transparent;
@@ -140,8 +117,6 @@
       text-align: left;
       cursor: pointer;
       font-weight: 600;
-      color: #2e4d2e;
-      transition: background-color 0.25s ease;
     }
     .menu-content button:hover {
       background-color: #4caf50;
@@ -153,9 +128,7 @@
   <div class="container">
     <div class="menu-wrapper">
       <button class="menu-button" aria-label="Options">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </button>
       <div class="menu-content" id="menuContent">
         <button id="editBtn">Edit</button>
@@ -163,8 +136,8 @@
       </div>
     </div>
     <h1 id="updateTitle">Tajuk Update</h1>
+    <div class="media-container" id="mediaContainer"></div>
     <p id="updateContent">Isi update akan dipaparkan di sini.</p>
-
     <button id="back-btn">Kembali</button>
   </div>
 
@@ -190,20 +163,19 @@
 
     const updateTitle = document.getElementById("updateTitle");
     const updateContent = document.getElementById("updateContent");
+    const mediaContainer = document.getElementById("mediaContainer");
     const backBtn = document.getElementById("back-btn");
     const menuButton = document.querySelector(".menu-button");
     const menuContent = document.getElementById("menuContent");
     const editBtn = document.getElementById("editBtn");
     const deleteBtn = document.getElementById("deleteBtn");
 
-    // Fetch update data
     async function loadUpdate() {
       if (!updateId) {
         alert("Update tidak dijumpai.");
         window.location.href = "index.html";
         return;
       }
-
       try {
         const docRef = doc(db, "updates", updateId);
         const docSnap = await getDoc(docRef);
@@ -212,6 +184,16 @@
           const data = docSnap.data();
           updateTitle.textContent = data.tajuk;
           updateContent.textContent = data.isi;
+
+          // Paparkan media kalau ada
+          if (data.mediaUrl) {
+            const url = data.mediaUrl;
+            if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+              mediaContainer.innerHTML = `<img src="${url}" alt="Media" />`;
+            } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
+              mediaContainer.innerHTML = `<video src="${url}" controls></video>`;
+            }
+          }
         } else {
           alert("Update tidak dijumpai.");
           window.location.href = "index.html";
@@ -225,16 +207,10 @@
 
     loadUpdate();
 
-    backBtn.onclick = () => {
-      window.location.href = "index.html";
-    };
+    backBtn.onclick = () => window.location.href = "index.html";
 
-    // Toggle menu
-    menuButton.onclick = () => {
-      menuContent.classList.toggle("show");
-    };
+    menuButton.onclick = () => menuContent.classList.toggle("show");
 
-    // Click outside menu to close
     document.addEventListener("click", (e) => {
       if (!menuButton.contains(e.target) && !menuContent.contains(e.target)) {
         menuContent.classList.remove("show");
