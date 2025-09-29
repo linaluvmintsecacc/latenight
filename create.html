@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buat Update Baru / Kemaskini Update</title>
+  <title>Buat / Kemaskini Update</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
   <style>
-    @keyframes greenPulse {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
     body {
       margin: 0;
       padding: 0;
@@ -22,6 +18,10 @@
       background-size: 400% 400%;
       animation: greenPulse 20s ease infinite;
       color: #2e4d2e;
+    }
+    @keyframes greenPulse {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
     .container {
       background: linear-gradient(145deg, #f0fff0, #d8f5d8);
@@ -39,19 +39,18 @@
       border-bottom: 2px solid #4caf50;
       padding-bottom: 10px;
       margin-bottom: 30px;
-      color: #2e4d2e;
       font-weight: 700;
-      letter-spacing: 1.1px;
       text-align: center;
+      color: #2e4d2e;
     }
     label {
       font-weight: 600;
       display: block;
       margin-bottom: 8px;
-      color: #2e4d2e;
     }
     input[type="text"],
-    textarea {
+    textarea,
+    input[type="file"] {
       width: 100%;
       padding: 14px 16px;
       border-radius: 14px;
@@ -59,18 +58,11 @@
       font-size: 1rem;
       font-family: 'Nunito', sans-serif;
       color: #1e293b;
-      resize: vertical;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      box-sizing: border-box;
-    }
-    input[type="text"]:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #4caf50;
-      box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
+      margin-bottom: 18px;
     }
     textarea {
       min-height: 130px;
+      resize: vertical;
     }
     button {
       background: #4caf50;
@@ -82,13 +74,10 @@
       width: 100%;
       border-radius: 18px;
       cursor: pointer;
-      margin-top: 25px;
-      box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 15px;
     }
     button:hover {
       background: #388e3c;
-      box-shadow: 0 8px 20px rgba(56, 142, 60, 0.6);
     }
     #back-button {
       background: transparent;
@@ -100,11 +89,6 @@
       cursor: pointer;
       margin-bottom: 20px;
       display: inline-block;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    #back-button:hover {
-      background-color: #4caf50;
-      color: white;
     }
   </style>
 </head>
@@ -114,9 +98,14 @@
     <h1 id="page-title">Buat Update Baru</h1>
     <form id="updateForm">
       <label for="tajuk">Tajuk/Tarikh</label>
-      <input id="tajuk" type="text" required placeholder="..." autocomplete="off" />
+      <input id="tajuk" type="text" required placeholder="..." />
+
       <label for="isi">Isi</label>
       <textarea id="isi" required placeholder="..."></textarea>
+
+      <label for="media">Upload Gambar/Video</label>
+      <input id="media" type="file" accept="image/*,video/*" />
+
       <button type="submit">Hantar</button>
     </form>
   </div>
@@ -124,7 +113,9 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
       authDomain: "latenight-4c61a.firebaseapp.com",
@@ -134,9 +125,13 @@
       appId: "1:208698993180:web:7741767d129b4d43034dd9",
       measurementId: "G-MVKZ0R87Y3"
     };
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
+    // Supabase setup
+    const supabaseUrl = "https://pbpqkpxbjxriujcaydgi.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBicHFrcHhianhyaXVqY2F5ZGdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNDYwODksImV4cCI6MjA3NDcyMjA4OX0.yW1yOoBrgBGCTnZWjWIAZKIAKSngoRsELFZSaCLiQcM";
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const params = new URLSearchParams(window.location.search);
     const updateId = params.get("id");
@@ -144,78 +139,96 @@
 
     const tajukInput = document.getElementById("tajuk");
     const isiInput = document.getElementById("isi");
+    const mediaInput = document.getElementById("media");
     const form = document.getElementById("updateForm");
     const backBtn = document.getElementById("back-button");
     const pageTitle = document.getElementById("page-title");
     const submitBtn = form.querySelector("button[type='submit']");
 
-    backBtn.onclick = () => {
-      window.location.href = "index.html";
-    };
+    let oldMediaUrl = null;
 
-    // Jika dalam mode edit, fetch data sedia ada dan paparkan dalam form
+    backBtn.onclick = () => { window.location.href = "index.html"; };
+
+    // Load data kalau edit
     if (isEdit && updateId) {
       pageTitle.textContent = "Kemaskini Update";
       submitBtn.textContent = "Kemaskini";
 
       (async () => {
-        try {
-          const docRef = doc(db, "updates", updateId);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            tajukInput.value = data.tajuk || "";
-            isiInput.value = data.isi || "";
-          } else {
-            alert("Update tidak dijumpai.");
-            window.location.href = "index.html";
-          }
-        } catch (error) {
-          console.error("Gagal dapat data update:", error);
-          alert("Gagal memuatkan update. Sila cuba lagi.");
-          window.location.href = "index.html";
+        const docRef = doc(db, "updates", updateId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          tajukInput.value = data.tajuk || "";
+          isiInput.value = data.isi || "";
+          oldMediaUrl = data.mediaUrl || null;
         }
       })();
     }
 
+    // Upload fail ke Supabase
+    async function uploadFile(file) {
+      if (!file) return null;
+      const filePath = `${Date.now()}_${file.name}`;
+      const { error } = await supabase.storage.from("media").upload(filePath, file);
+      if (error) {
+        console.error("Upload error:", error);
+        alert("Gagal upload fail: " + (error.message || "Unknown error"));
+        return null;
+      }
+      return `${supabaseUrl}/storage/v1/object/public/media/${filePath}`;
+    }
+
+    // Padam media lama (Supabase)
+    async function deleteOldMedia(url) {
+      if (!url) return;
+      const fileName = url.split("/").pop();
+      const { error } = await supabase.storage.from("media").remove([fileName]);
+      if (error) {
+        console.error("Gagal delete media lama:", error);
+      }
+    }
+
+    // Submit form
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const tajuk = tajukInput.value.trim();
       const isi = isiInput.value.trim();
+      const file = mediaInput.files[0];
 
       if (!tajuk || !isi) {
-        alert("Sila isi semua ruangan dengan lengkap.");
+        alert("Sila isi semua ruangan.");
         return;
+      }
+
+      // ✅ Check saiz fail ≤ 50MB
+      if (file && file.size > 50 * 1024 * 1024) {
+        alert("Fail terlalu besar! Maksimum 50MB sahaja.");
+        return;
+      }
+
+      let mediaUrl = oldMediaUrl;
+      if (file) {
+        if (oldMediaUrl) await deleteOldMedia(oldMediaUrl); // padam lama
+        mediaUrl = await uploadFile(file); // upload baru
       }
 
       try {
         if (isEdit && updateId) {
-          // Update dokumen sedia ada
           const docRef = doc(db, "updates", updateId);
-          await updateDoc(docRef, {
-            tajuk,
-            isi,
-            updatedAt: serverTimestamp()
-          });
+          await updateDoc(docRef, { tajuk, isi, mediaUrl, updatedAt: serverTimestamp() });
           alert("Update berjaya dikemaskini!");
         } else {
-          // Create dokumen baru
-          await addDoc(collection(db, "updates"), {
-            tajuk,
-            isi,
-            createdAt: serverTimestamp()
-          });
+          await addDoc(collection(db, "updates"), { tajuk, isi, mediaUrl, createdAt: serverTimestamp() });
           alert("Update berjaya disimpan!");
         }
-
         window.location.href = "index.html";
       } catch (err) {
-        console.error("Gagal hantar:", err);
-        alert("Gagal simpan update. Sila cuba lagi.");
+        console.error("Firestore error:", err);
+        alert("Gagal simpan update.");
       }
     });
   </script>
 </body>
 </html>
+
