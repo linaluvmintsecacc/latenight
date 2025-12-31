@@ -9,7 +9,7 @@
     body {
       margin: 0;
       font-family: 'Nunito', sans-serif;
-      /* Tema Deep Space Green */
+      /* Warna Deep Space Green - Bukan hitam pekat */
       background: radial-gradient(circle at center, #1b3d1b 0%, #0a140a 100%);
       min-height: 100vh;
       color: #e0ffe0;
@@ -22,28 +22,29 @@
       position: relative;
     }
 
-    /* Efek Bintang Bergerak */
+    /* Decoration: Bintang Angkasa */
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background-image: 
-        radial-gradient(1px 1px at 10% 30%, #fff, transparent),
-        radial-gradient(2px 2px at 80% 70%, #4caf50, transparent),
-        radial-gradient(1px 1px at 40% 85%, #fff, transparent);
+        radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 100px 150px, #4caf50, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 200px 400px, #fff, rgba(0,0,0,0));
       background-size: 300px 300px;
-      opacity: 0.2;
+      opacity: 0.3;
       z-index: 0;
     }
 
     .container {
-      background: rgba(10, 25, 10, 0.85);
+      /* Efek Glassmorphism Cyberpunk */
+      background: rgba(20, 40, 20, 0.8);
       backdrop-filter: blur(15px);
       border-radius: 20px;
-      padding: 50px 40px;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(76, 175, 80, 0.2);
+      padding: 40px 40px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(76, 175, 80, 0.2);
       border: 1px solid rgba(76, 175, 80, 0.4);
-      max-width: 750px;
+      max-width: 650px;
       width: 100%;
       box-sizing: border-box;
       position: relative;
@@ -54,84 +55,52 @@
       font-family: 'Orbitron', sans-serif;
       border-bottom: 2px solid #4caf50;
       padding-bottom: 15px;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
       font-weight: 700;
       text-align: center;
+      letter-spacing: 2px;
       color: #ffffff;
-      letter-spacing: 3px;
-      text-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+      text-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
     }
 
-    /* --- HIASAN TEXT PANJANG (DATA LOG) --- */
-    #updateContent {
+    /* Decoration: Box untuk isi kandungan */
+    p {
       font-size: 1.1rem;
       line-height: 1.8;
       white-space: pre-wrap;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #4caf50;
       color: #d1ffd1;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 30px;
-      border-radius: 12px;
-      border: 1px solid rgba(76, 175, 80, 0.3);
-      position: relative;
-      box-shadow: inset 0 0 30px rgba(0, 255, 0, 0.05);
-      font-family: 'Nunito', sans-serif;
-    }
-
-    /* Label Dekoratif pada Teks */
-    #updateContent::before {
-      content: "SYSTEM_DECRYPTED_LOG";
-      position: absolute;
-      top: -12px;
-      left: 20px;
-      background: #4caf50;
-      color: #0a140a;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.65rem;
-      padding: 3px 12px;
-      font-weight: bold;
-      border-radius: 4px;
-      letter-spacing: 1px;
-    }
-
-    /* Garis bawah dekoratif dalam box teks */
-    #updateContent::after {
-      content: "";
-      position: absolute;
-      bottom: 10px;
-      right: 15px;
-      width: 40px;
-      height: 4px;
-      background: rgba(76, 175, 80, 0.5);
-      border-radius: 2px;
     }
 
     .media-container {
       text-align: center;
-      margin-bottom: 35px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 15px;
+      margin-bottom: 30px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px;
       border-radius: 15px;
-      border: 1px dashed rgba(76, 175, 80, 0.2);
     }
 
     .media-container img,
     .media-container video {
       max-width: 100%;
-      max-height: 450px;
-      border-radius: 8px;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(76, 175, 80, 0.4);
+      max-height: 350px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* Button Style: Cyberpunk Green */
     #back-btn {
       background: transparent;
-      color: #8bc34a;
-      border: 1px solid #8bc34a;
-      padding: 14px 45px;
+      color: #4caf50;
+      border: 1px solid #4caf50;
+      padding: 12px 35px;
       border-radius: 5px;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       display: block;
@@ -145,10 +114,9 @@
       background-color: #4caf50;
       color: #0a140a;
       box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-      transform: translateY(-2px);
     }
 
-    /* Menu Wrapper (Titik Tiga) */
+    /* Menu Decoration */
     .menu-wrapper {
       position: absolute;
       top: 25px;
@@ -156,74 +124,64 @@
     }
 
     .menu-button {
-      width: 35px;
-      height: 35px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(76, 175, 80, 0.3);
-      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid #4caf50;
+      border-radius: 5px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
-      gap: 3px;
-      transition: 0.3s;
+      padding: 5px;
     }
 
-    .menu-button:hover { background: rgba(76, 175, 80, 0.2); }
-
     .menu-button span {
-      width: 4px;
-      height: 4px;
-      background-color: #8bc34a;
+      width: 5px;
+      height: 5px;
+      background-color: #4caf50;
       border-radius: 50%;
+      box-shadow: 0 0 5px #4caf50;
     }
 
     .menu-content {
       display: none;
       position: absolute;
-      top: 45px;
+      top: 40px;
       right: 0;
-      background: #112211;
+      background: #152515;
       border: 1px solid #4caf50;
       border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
       z-index: 100;
-      min-width: 150px;
+      min-width: 120px;
       overflow: hidden;
     }
 
-    .menu-content.show { display: block; animation: fadeIn 0.2s ease; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .menu-content.show { display: block; }
 
     .menu-content button {
       width: 100%;
       background: transparent;
       border: none;
-      padding: 12px 20px;
+      padding: 12px 15px;
       text-align: left;
       cursor: pointer;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #e0ffe0;
+      transition: 0.2s;
     }
 
     .menu-content button:hover {
       background-color: #4caf50;
-      color: #000;
+      color: #0a140a;
     }
 
-    #deleteBtn { color: #ff5252; }
-    #deleteBtn:hover { background-color: #ff5252; color: #fff; }
-
     @media (max-width: 600px) {
-      .container { padding: 40px 20px; }
-      h1 { font-size: 1.6rem; }
-      #updateContent { font-size: 1rem; padding: 20px; }
+      .container { padding: 30px 20px; }
+      h1 { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -234,11 +192,10 @@
         <span></span><span></span><span></span>
       </button>
       <div class="menu-content" id="menuContent">
-        <button id="editBtn">ACCESS_EDIT</button>
-        <button id="deleteBtn">TERMINATE_LOG</button>
+        <button id="editBtn">EDIT_LOG</button>
+        <button id="deleteBtn">DELETE_LOG</button>
       </div>
     </div>
-    
     <h1 id="updateTitle">Tajuk Update</h1>
     <div class="media-container" id="mediaContainer"></div>
     <p id="updateContent">Isi update akan dipaparkan di sini.</p>
@@ -249,7 +206,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Firebase Config asal dikekalkan
     const firebaseConfig = {
       apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
       authDomain: "latenight-4c61a.firebaseapp.com",
@@ -290,6 +246,7 @@
           updateTitle.textContent = data.tajuk;
           updateContent.textContent = data.isi;
 
+          // Paparkan media kalau ada
           if (data.mediaUrl) {
             const url = data.mediaUrl;
             if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
@@ -304,7 +261,7 @@
         }
       } catch (error) {
         console.error("Gagal dapat data update:", error);
-        alert("Gagal memuatkan update.");
+        alert("Gagal memuatkan update. Sila cuba lagi.");
         window.location.href = "index.html";
       }
     }
@@ -312,6 +269,7 @@
     loadUpdate();
 
     backBtn.onclick = () => window.location.href = "index.html";
+
     menuButton.onclick = () => menuContent.classList.toggle("show");
 
     document.addEventListener("click", (e) => {
@@ -332,7 +290,7 @@
           window.location.href = "index.html";
         } catch (error) {
           console.error("Gagal memadam update:", error);
-          alert("Gagal memadam update.");
+          alert("Gagal memadam update. Sila cuba lagi.");
         }
       }
     };
