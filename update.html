@@ -9,7 +9,6 @@
     body {
       margin: 0;
       font-family: 'Nunito', sans-serif;
-      /* Warna Deep Space Green - Bukan hitam pekat */
       background: radial-gradient(circle at center, #1b3d1b 0%, #0a140a 100%);
       min-height: 100vh;
       color: #e0ffe0;
@@ -22,29 +21,27 @@
       position: relative;
     }
 
-    /* Decoration: Bintang Angkasa */
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background-image: 
-        radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 100px 150px, #4caf50, rgba(0,0,0,0)),
-        radial-gradient(1px 1px at 200px 400px, #fff, rgba(0,0,0,0));
+        radial-gradient(1px 1px at 10% 30%, #fff, transparent),
+        radial-gradient(2px 2px at 80% 70%, #4caf50, transparent),
+        radial-gradient(1px 1px at 40% 85%, #fff, transparent);
       background-size: 300px 300px;
-      opacity: 0.3;
+      opacity: 0.2;
       z-index: 0;
     }
 
     .container {
-      /* Efek Glassmorphism Cyberpunk */
-      background: rgba(20, 40, 20, 0.8);
+      background: rgba(10, 25, 10, 0.85);
       backdrop-filter: blur(15px);
       border-radius: 20px;
-      padding: 40px 40px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(76, 175, 80, 0.2);
+      padding: 50px 40px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(76, 175, 80, 0.2);
       border: 1px solid rgba(76, 175, 80, 0.4);
-      max-width: 650px;
+      max-width: 750px;
       width: 100%;
       box-sizing: border-box;
       position: relative;
@@ -55,52 +52,68 @@
       font-family: 'Orbitron', sans-serif;
       border-bottom: 2px solid #4caf50;
       padding-bottom: 15px;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
       font-weight: 700;
       text-align: center;
-      letter-spacing: 2px;
       color: #ffffff;
-      text-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+      letter-spacing: 3px;
+      text-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
     }
 
-    /* Decoration: Box untuk isi kandungan */
-    p {
+    #updateContent {
       font-size: 1.1rem;
       line-height: 1.8;
       white-space: pre-wrap;
-      margin-bottom: 30px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      border-radius: 10px;
-      border-left: 4px solid #4caf50;
+      margin-bottom: 35px;
       color: #d1ffd1;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(0, 255, 0, 0.05);
+    }
+
+    #updateContent::before {
+      content: "SYSTEM_LOG_ENTRY";
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: #4caf50;
+      color: #0a140a;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      padding: 3px 12px;
+      font-weight: bold;
+      border-radius: 4px;
     }
 
     .media-container {
       text-align: center;
-      margin-bottom: 30px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 10px;
+      margin-bottom: 35px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 15px;
       border-radius: 15px;
+      border: 1px dashed rgba(76, 175, 80, 0.2);
     }
 
     .media-container img,
     .media-container video {
       max-width: 100%;
-      max-height: 350px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: 450px;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(76, 175, 80, 0.4);
     }
 
-    /* Button Style: Cyberpunk Green */
     #back-btn {
       background: transparent;
-      color: #4caf50;
-      border: 1px solid #4caf50;
-      padding: 12px 35px;
+      color: #8bc34a;
+      border: 1px solid #8bc34a;
+      padding: 14px 45px;
       border-radius: 5px;
       font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       display: block;
@@ -116,73 +129,29 @@
       box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
     }
 
-    /* Menu Decoration */
-    .menu-wrapper {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-    }
-
+    .menu-wrapper { position: absolute; top: 25px; right: 25px; }
     .menu-button {
-      width: 32px;
-      height: 32px;
-      background: rgba(76, 175, 80, 0.1);
-      border: 1px solid #4caf50;
-      border-radius: 5px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      padding: 5px;
-    }
-
-    .menu-button span {
-      width: 5px;
-      height: 5px;
-      background-color: #4caf50;
+      width: 35px; height: 35px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(76, 175, 80, 0.3);
       border-radius: 50%;
-      box-shadow: 0 0 5px #4caf50;
-    }
-
-    .menu-content {
-      display: none;
-      position: absolute;
-      top: 40px;
-      right: 0;
-      background: #152515;
-      border: 1px solid #4caf50;
-      border-radius: 8px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-      z-index: 100;
-      min-width: 120px;
-      overflow: hidden;
-    }
-
-    .menu-content.show { display: block; }
-
-    .menu-content button {
-      width: 100%;
-      background: transparent;
-      border: none;
-      padding: 12px 15px;
-      text-align: left;
       cursor: pointer;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.8rem;
-      color: #e0ffe0;
-      transition: 0.2s;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: 3px;
     }
-
-    .menu-content button:hover {
-      background-color: #4caf50;
-      color: #0a140a;
+    .menu-button span { width: 4px; height: 4px; background-color: #8bc34a; border-radius: 50%; }
+    .menu-content {
+      display: none; position: absolute; top: 45px; right: 0;
+      background: #112211; border: 1px solid #4caf50;
+      border-radius: 8px; z-index: 100; min-width: 150px;
     }
-
-    @media (max-width: 600px) {
-      .container { padding: 30px 20px; }
-      h1 { font-size: 1.5rem; }
+    .menu-content.show { display: block; }
+    .menu-content button {
+      width: 100%; background: transparent; border: none;
+      padding: 12px 20px; text-align: left; cursor: pointer;
+      font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: #e0ffe0;
     }
+    .menu-content button:hover { background-color: #4caf50; color: #000; }
   </style>
 </head>
 <body>
@@ -192,10 +161,11 @@
         <span></span><span></span><span></span>
       </button>
       <div class="menu-content" id="menuContent">
-        <button id="editBtn">EDIT_LOG</button>
-        <button id="deleteBtn">DELETE_LOG</button>
+        <button id="editBtn">ACCESS_EDIT</button>
+        <button id="deleteBtn" style="color:#ff5252;">TERMINATE_LOG</button>
       </div>
     </div>
+    
     <h1 id="updateTitle">Tajuk Update</h1>
     <div class="media-container" id="mediaContainer"></div>
     <p id="updateContent">Isi update akan dipaparkan di sini.</p>
@@ -246,13 +216,19 @@
           updateTitle.textContent = data.tajuk;
           updateContent.textContent = data.isi;
 
-          // Paparkan media kalau ada
+          // PERBAIKAN DI SINI: Cara detect gambar/video yang lebih tepat
           if (data.mediaUrl) {
-            const url = data.mediaUrl;
-            if (url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-              mediaContainer.innerHTML = `<img src="${url}" alt="Media" />`;
-            } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
-              mediaContainer.innerHTML = `<video src="${url}" controls></video>`;
+            const url = data.mediaUrl.toLowerCase();
+            const isImage = url.includes('.jpg') || url.includes('.jpeg') || url.includes('.png') || url.includes('.gif') || url.includes('.webp');
+            const isVideo = url.includes('.mp4') || url.includes('.webm') || url.includes('.ogg');
+
+            if (isImage) {
+              mediaContainer.innerHTML = `<img src="${data.mediaUrl}" alt="Media" />`;
+            } else if (isVideo) {
+              mediaContainer.innerHTML = `<video src="${data.mediaUrl}" controls></video>`;
+            } else {
+              // Jika extension pelik, kita cuba buat sebagai imej sebagai fallback
+              mediaContainer.innerHTML = `<img src="${data.mediaUrl}" alt="Media" />`;
             }
           }
         } else {
@@ -261,7 +237,7 @@
         }
       } catch (error) {
         console.error("Gagal dapat data update:", error);
-        alert("Gagal memuatkan update. Sila cuba lagi.");
+        alert("Gagal memuatkan update.");
         window.location.href = "index.html";
       }
     }
@@ -269,19 +245,13 @@
     loadUpdate();
 
     backBtn.onclick = () => window.location.href = "index.html";
-
     menuButton.onclick = () => menuContent.classList.toggle("show");
-
     document.addEventListener("click", (e) => {
       if (!menuButton.contains(e.target) && !menuContent.contains(e.target)) {
         menuContent.classList.remove("show");
       }
     });
-
-    editBtn.onclick = () => {
-      window.location.href = `create.html?id=${updateId}&edit=true`;
-    };
-
+    editBtn.onclick = () => window.location.href = `create.html?id=${updateId}&edit=true`;
     deleteBtn.onclick = async () => {
       if (confirm("Adakah anda pasti mahu memadam update ini?")) {
         try {
@@ -289,8 +259,7 @@
           alert("Update berjaya dipadam.");
           window.location.href = "index.html";
         } catch (error) {
-          console.error("Gagal memadam update:", error);
-          alert("Gagal memadam update. Sila cuba lagi.");
+          alert("Gagal memadam update.");
         }
       }
     };
