@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Buat / Kemaskini Update</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -14,99 +14,172 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(-45deg, #d7f5d1, #a3d7a5, #d7f5d1, #a3d7a5);
-      background-size: 400% 400%;
-      animation: greenPulse 20s ease infinite;
-      color: #2e4d2e;
+      /* Tema Deep Space (Selari dengan index) */
+      background: radial-gradient(circle at center, #1b3d1b 0%, #0a140a 100%);
+      color: #e0ffe0;
+      overflow-x: hidden;
+      position: relative;
     }
-    @keyframes greenPulse {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+
+    /* Efek Bintang */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: 
+        radial-gradient(1px 1px at 10% 10%, #fff, transparent),
+        radial-gradient(1px 1px at 50% 20%, #4caf50, transparent),
+        radial-gradient(1px 1px at 80% 80%, #fff, transparent);
+      background-size: 250px 250px;
+      opacity: 0.3;
+      z-index: -1;
     }
+
     .container {
-      background: linear-gradient(145deg, #f0fff0, #d8f5d8);
-      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
       padding: 40px 50px;
-      box-shadow:
-        0 8px 24px rgba(27, 94, 32, 0.15),
-        inset 0 0 8px rgba(255, 255, 255, 0.6);
-      border: 1.5px solid #a3d4a5;
+      box-shadow: 0 0 30px rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
       max-width: 600px;
-      width: 100%;
+      width: 90%;
       box-sizing: border-box;
+      position: relative;
+      z-index: 1;
     }
+
     h1 {
-      border-bottom: 2px solid #4caf50;
-      padding-bottom: 10px;
+      font-family: 'Orbitron', sans-serif;
+      border-bottom: 2px solid rgba(76, 175, 80, 0.5);
+      padding-bottom: 15px;
       margin-bottom: 30px;
       font-weight: 700;
       text-align: center;
-      color: #2e4d2e;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
     }
+
     label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
       font-weight: 600;
       display: block;
       margin-bottom: 8px;
+      color: #8bc34a;
+      letter-spacing: 1px;
     }
+
     input[type="text"],
     textarea,
     input[type="file"] {
       width: 100%;
       padding: 14px 16px;
-      border-radius: 14px;
-      border: 1.8px solid #a3d4a5;
+      border-radius: 10px;
+      border: 1px solid rgba(139, 195, 74, 0.3);
+      background: rgba(0, 0, 0, 0.2);
       font-size: 1rem;
       font-family: 'Nunito', sans-serif;
-      color: #1e293b;
-      margin-bottom: 18px;
+      color: #ffffff;
+      margin-bottom: 22px;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
     }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #8bc34a;
+      box-shadow: 0 0 10px rgba(139, 195, 74, 0.2);
+      background: rgba(0, 0, 0, 0.4);
+    }
+
     textarea {
       min-height: 130px;
       resize: vertical;
     }
-    button {
+
+    /* Gaya butang hantar futuristik */
+    button[type="submit"] {
       background: #4caf50;
       color: white;
+      font-family: 'Orbitron', sans-serif;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1rem;
       border: none;
-      padding: 14px 0;
+      padding: 16px 0;
       width: 100%;
-      border-radius: 18px;
+      border-radius: 10px;
       cursor: pointer;
-      margin-top: 15px;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
     }
-    button:hover {
-      background: #388e3c;
+
+    button[type="submit"]:hover {
+      background: #66bb6a;
+      box-shadow: 0 0 25px rgba(76, 175, 80, 0.6);
+      transform: translateY(-2px);
     }
+
     #back-button {
       background: transparent;
-      color: #4caf50;
-      border: 2px solid #4caf50;
-      padding: 10px 25px;
-      border-radius: 20px;
+      color: #8bc34a;
+      border: 1px solid #8bc34a;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
       font-weight: 600;
       cursor: pointer;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       display: inline-block;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    #back-button:hover {
+      background: rgba(139, 195, 74, 0.1);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(139, 195, 74, 0.3);
+    }
+
+    /* Penyesuaian input file */
+    input[type="file"]::file-selector-button {
+      background: #2e4d2e;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 30px 20px; }
+      h1 { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <button id="back-button">Kembali</button>
+    <button id="back-button">← Kembali</button>
     <h1 id="page-title">Buat Update Baru</h1>
     <form id="updateForm">
-      <label for="tajuk">Tajuk/Tarikh</label>
-      <input id="tajuk" type="text" required placeholder="..." />
+      <label for="tajuk">Tajuk / Tarikh Misi</label>
+      <input id="tajuk" type="text" required placeholder="Masukkan tajuk..." />
 
-      <label for="isi">Isi</label>
-      <textarea id="isi" required placeholder="..."></textarea>
+      <label for="isi">Isi Kandungan</label>
+      <textarea id="isi" required placeholder="Tuliskan butiran di sini..."></textarea>
 
-      <label for="media">Upload Gambar/Video</label>
+      <label for="media">Upload Media (Gambar/Video)</label>
       <input id="media" type="file" accept="image/*,video/*" />
 
-      <button type="submit">Hantar</button>
+      <button type="submit">Hantar Data</button>
     </form>
   </div>
 
@@ -115,7 +188,7 @@
     import { getFirestore, collection, addDoc, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    // Firebase config
+    // Firebase config (Original)
     const firebaseConfig = {
       apiKey: "AIzaSyD5kksl475n1Blo9tjP9KVMSrebO8AFJxc",
       authDomain: "latenight-4c61a.firebaseapp.com",
@@ -128,7 +201,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Supabase setup
+    // Supabase setup (Original)
     const supabaseUrl = "https://pbpqkpxbjxriujcaydgi.supabase.co";
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBicHFrcHhianhyaXVqY2F5ZGdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNDYwODksImV4cCI6MjA3NDcyMjA4OX0.yW1yOoBrgBGCTnZWjWIAZKIAKSngoRsELFZSaCLiQcM";
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -149,7 +222,7 @@
 
     backBtn.onclick = () => { window.location.href = "index.html"; };
 
-    // Load data kalau edit
+    // Load data kalau edit (Original Logic)
     if (isEdit && updateId) {
       pageTitle.textContent = "Kemaskini Update";
       submitBtn.textContent = "Kemaskini";
@@ -166,7 +239,7 @@
       })();
     }
 
-    // Upload fail ke Supabase
+    // Upload fail ke Supabase (Original Logic)
     async function uploadFile(file) {
       if (!file) return null;
       const filePath = `${Date.now()}_${file.name}`;
@@ -179,7 +252,7 @@
       return `${supabaseUrl}/storage/v1/object/public/media/${filePath}`;
     }
 
-    // Padam media lama (Supabase)
+    // Padam media lama (Original Logic)
     async function deleteOldMedia(url) {
       if (!url) return;
       const fileName = url.split("/").pop();
@@ -189,7 +262,7 @@
       }
     }
 
-    // Submit form
+    // Submit form (Original Logic)
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const tajuk = tajukInput.value.trim();
@@ -201,7 +274,6 @@
         return;
       }
 
-      // ✅ Check saiz fail ≤ 50MB
       if (file && file.size > 50 * 1024 * 1024) {
         alert("Fail terlalu besar! Maksimum 50MB sahaja.");
         return;
@@ -209,8 +281,8 @@
 
       let mediaUrl = oldMediaUrl;
       if (file) {
-        if (oldMediaUrl) await deleteOldMedia(oldMediaUrl); // padam lama
-        mediaUrl = await uploadFile(file); // upload baru
+        if (oldMediaUrl) await deleteOldMedia(oldMediaUrl);
+        mediaUrl = await uploadFile(file);
       }
 
       try {
@@ -231,4 +303,3 @@
   </script>
 </body>
 </html>
-
